@@ -21,7 +21,7 @@ export const Hero = () => {
         </p>
         <Button
           size="lg"
-          className="bg-ticket-gold text-white hover:bg-opacity-90 animate-fade-in"
+          className="bg-[#D946EF] text-white hover:opacity-90 transition-all duration-300 animate-fade-in"
         >
           Explore Shows
         </Button>
