@@ -1,6 +1,18 @@
 import { Button } from "@/components/ui/button";
+import { useEffect, useState } from "react";
 
 export const Hero = () => {
+  const [scrollPosition, setScrollPosition] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollPosition(window.scrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <div className="relative h-[70vh] flex items-center justify-center overflow-hidden">
       <div
@@ -9,6 +21,8 @@ export const Hero = () => {
           backgroundImage: `url('https://tutanentertainment.com/wp-content/uploads/2024/05/Evolution-of-Musical-Theatre.jpg')`,
           backgroundSize: "cover",
           backgroundPosition: "center",
+          backgroundAttachment: "fixed",
+          transform: `translateY(${scrollPosition * 0.5}px)`,
         }}
       />
       <div className="relative z-10 text-center text-white p-8">
