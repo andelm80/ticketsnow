@@ -6,7 +6,7 @@ export const Hero = () => {
       <div
         className="absolute inset-0 bg-gradient-to-r from-ticket-purple to-ticket-blue opacity-90"
         style={{
-          backgroundImage: `url('/placeholder.svg')`,
+          backgroundImage: `url('https://tutanentertainment.com/wp-content/uploads/2024/05/Evolution-of-Musical-Theatre.jpg')`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
