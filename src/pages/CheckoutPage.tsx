@@ -41,6 +41,17 @@ const CheckoutPage = () => {
     );
   }
 
+  const onSubmit = async (data: CustomerDetails) => {
+    try {
+      console.log("Form data:", data);
+      toast.success("Order placed successfully!");
+      navigate("/");
+    } catch (error) {
+      toast.error("Failed to place order");
+      console.error("Order submission error:", error);
+    }
+  };
+
   return (
     <div className="container mx-auto py-12 max-w-2xl">
       <Button 
@@ -65,10 +76,7 @@ const CheckoutPage = () => {
         </div>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit((data) => {
-            toast.success("Order placed successfully!");
-            navigate("/");
-          })} className="space-y-6">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <FormField
                 control={form.control}
