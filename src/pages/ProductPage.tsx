@@ -1,7 +1,6 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Calendar, MapPin, Clock } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 import { shows } from "./Index";
 
 const ProductPage = () => {
@@ -22,6 +21,11 @@ const ProductPage = () => {
       </div>
     );
   }
+
+  const handlePurchase = () => {
+    console.log("Navigating to checkout with show:", show);
+    navigate("/checkout", { state: { show } });
+  };
 
   return (
     <div className="container mx-auto py-12">
@@ -67,6 +71,7 @@ const ProductPage = () => {
             <Button
               size="lg"
               className="w-full bg-ticket-blue text-white hover:opacity-90"
+              onClick={handlePurchase}
             >
               Purchase Tickets
             </Button>
