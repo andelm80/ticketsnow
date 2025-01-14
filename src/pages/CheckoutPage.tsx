@@ -14,10 +14,7 @@ interface CustomerDetails {
 
 const CheckoutPage = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const show = location.state?.show;
-
-  console.log("Checkout page loaded with show:", show);
+  const { state: { show } = {} } = useLocation();
 
   const form = useForm<CustomerDetails>({
     defaultValues: {
@@ -27,12 +24,6 @@ const CheckoutPage = () => {
       phone: "",
     },
   });
-
-  const onSubmit = (data: CustomerDetails) => {
-    console.log("Form submitted with data:", data);
-    toast.success("Order placed successfully!");
-    navigate("/");
-  };
 
   if (!show) {
     return (
@@ -57,9 +48,7 @@ const CheckoutPage = () => {
       <div className="space-y-8">
         <div>
           <h1 className="text-3xl font-bold mb-2">Checkout</h1>
-          <p className="text-muted-foreground">
-            Purchasing tickets for {show.title}
-          </p>
+          <p className="text-muted-foreground">Purchasing tickets for {show.title}</p>
         </div>
 
         <div className="bg-muted/50 p-4 rounded-lg">
@@ -71,7 +60,10 @@ const CheckoutPage = () => {
         </div>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form onSubmit={form.handleSubmit((data) => {
+            toast.success("Order placed successfully!");
+            navigate("/");
+          })} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <FormField
                 control={form.control}
