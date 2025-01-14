@@ -1,8 +1,10 @@
 import { Hero } from "@/components/Hero";
 import { ShowCard } from "@/components/ShowCard";
+import { useNavigate } from "react-router-dom";
 
-const shows = [
+export const shows = [
   {
+    id: "symphony-dreams",
     title: "Symphony of Dreams",
     artist: "London Philharmonic",
     date: "May 15, 2024",
@@ -12,6 +14,7 @@ const shows = [
     price: "$75",
   },
   {
+    id: "jazz-night",
     title: "Jazz Night Extravaganza",
     artist: "Miles Davis Tribute Band",
     date: "May 20, 2024",
@@ -21,6 +24,7 @@ const shows = [
     price: "$45",
   },
   {
+    id: "rock-legends",
     title: "Rock Legends",
     artist: "The Rolling Stones",
     date: "June 1, 2024",
@@ -30,6 +34,7 @@ const shows = [
     price: "$120",
   },
   {
+    id: "opera-gala",
     title: "Opera Gala",
     artist: "Maria Callas Ensemble",
     date: "June 15, 2024",
@@ -41,9 +46,11 @@ const shows = [
 ];
 
 const Index = () => {
-  const handleBuyTickets = () => {
-    console.log("Buy tickets clicked");
-    // We'll implement the ticket purchase flow in the next iteration
+  const navigate = useNavigate();
+
+  const handleBuyTickets = (showId: string) => {
+    console.log("Navigating to show:", showId);
+    navigate(`/show/${showId}`);
   };
 
   return (
@@ -54,9 +61,9 @@ const Index = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {shows.map((show) => (
             <ShowCard
-              key={show.title}
+              key={show.id}
               {...show}
-              onBuyTickets={handleBuyTickets}
+              onBuyTickets={() => handleBuyTickets(show.id)}
             />
           ))}
         </div>

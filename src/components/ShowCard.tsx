@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 
 interface ShowCardProps {
+  id: string;
   title: string;
   artist: string;
   date: string;
