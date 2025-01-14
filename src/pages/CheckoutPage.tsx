@@ -4,19 +4,24 @@ import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-interface CustomerDetails {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-}
+const formSchema = z.object({
+  firstName: z.string().min(1, "First name is required"),
+  lastName: z.string().min(1, "Last name is required"),
+  email: z.string().min(1, "Email is required").email("Invalid email address"),
+  phone: z.string().min(1, "Phone number is required"),
+});
+
+type CustomerDetails = z.infer<typeof formSchema>;
 
 const CheckoutPage = () => {
   const navigate = useNavigate();
   const { state: { show } = {} } = useLocation();
 
   const form = useForm<CustomerDetails>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
       firstName: "",
       lastName: "",
