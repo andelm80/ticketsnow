@@ -54,7 +54,7 @@ export const ShowCard = ({
         <span className="text-lg font-bold text-ticket-purple">{price}</span>
         <Button
           onClick={onBuyTickets}
-          className="bg-[#D946EF] text-white hover:opacity-90 transition-all duration-300"
+          className="bg-ticket-blue text-white hover:opacity-90 transition-all duration-300"
         >
           Buy Tickets
         </Button>
