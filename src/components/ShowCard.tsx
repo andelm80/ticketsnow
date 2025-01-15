@@ -13,6 +13,7 @@ interface ShowCardProps {
   image: string;
   price: string;
   labels: string[];
+  description: string;
   onBuyTickets: () => void;
 }
 
@@ -25,6 +26,7 @@ export const ShowCard = ({
   image,
   price,
   labels,
+  description,
   onBuyTickets,
 }: ShowCardProps) => {
   return (
@@ -39,6 +41,7 @@ export const ShowCard = ({
       <CardContent className="p-4">
         <h3 className="text-xl font-bold mb-2">{title}</h3>
         <p className="text-muted-foreground mb-4">{artist}</p>
+        <p className="text-sm text-gray-600 mb-4 line-clamp-3">{description}</p>
         <div className="space-y-2">
           <div className="flex items-center gap-2">
             <Calendar className="w-4 h-4 text-ticket-gold" />
