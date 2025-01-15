@@ -6,12 +6,13 @@ import { ShowCard } from "@/components/ShowCard";
 import { Search, List, X } from "lucide-react";
 import { shows } from "@/data/shows";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+  AlertDialogFooter,
+} from "@/components/ui/alert-dialog";
 import {
   Select,
   SelectContent,
@@ -26,6 +27,7 @@ const ExploreShows = () => {
   const [selectedVenue, setSelectedVenue] = useState<string>("");
   const [priceRange, setPriceRange] = useState<string>("");
   const [dateRange, setDateRange] = useState<string>("");
+  const [isFilterOpen, setIsFilterOpen] = useState(true);
 
   // Get unique venues for the filter
   const uniqueVenues = Array.from(new Set(shows.map((show) => show.venue)));
@@ -160,17 +162,17 @@ const ExploreShows = () => {
                 className="pl-10"
               />
             </div>
-            <Dialog>
-              <DialogTrigger asChild>
+            <AlertDialog open={isFilterOpen} onOpenChange={setIsFilterOpen}>
+              <AlertDialogTrigger asChild>
                 <Button variant="outline" className="flex items-center gap-2">
                   <List className="h-4 w-4" />
                   Filter
                 </Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                  <DialogTitle>Filter Shows</DialogTitle>
-                </DialogHeader>
+              </AlertDialogTrigger>
+              <AlertDialogContent className="sm:max-w-[425px]">
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Filter Shows</AlertDialogTitle>
+                </AlertDialogHeader>
                 <div className="space-y-4 py-4">
                   <div className="space-y-2">
                     <label className="text-sm font-medium">Venue</label>
@@ -217,20 +219,24 @@ const ExploreShows = () => {
                       </SelectContent>
                     </Select>
                   </div>
-
+                </div>
+                <AlertDialogFooter className="flex justify-between">
                   {(selectedVenue || priceRange || dateRange) && (
                     <Button
                       variant="outline"
-                      className="w-full mt-4"
                       onClick={clearFilters}
+                      className="mr-2"
                     >
                       <X className="h-4 w-4 mr-2" />
                       Clear Filters
                     </Button>
                   )}
-                </div>
-              </DialogContent>
-            </Dialog>
+                  <Button onClick={() => setIsFilterOpen(false)}>
+                    Apply Filters
+                  </Button>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </div>
         </div>
 
