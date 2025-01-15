@@ -22,7 +22,7 @@ export const shows: Show[] = [
   },
   {
     id: "jazz-night",
-    title: "Ekans Jazz Night Extravaganza",
+    title: "Jazz Night Extravaganza",
     artist: "Miles Davis Tribute Band",
     date: "May 20, 2024",
     time: "8:00 PM",
@@ -32,7 +32,7 @@ export const shows: Show[] = [
   },
   {
     id: "rock-legends",
-    title: "Ekans music Legends",
+    title: "Music Legends",
     artist: "The Rolling Stones",
     date: "June 1, 2024",
     time: "9:00 PM",
