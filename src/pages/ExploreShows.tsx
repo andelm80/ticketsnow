@@ -33,6 +33,11 @@ const ExploreShows = () => {
     return count;
   };
 
+  const clearFilters = () => {
+    console.log("Clearing all filters");
+    setPriceRange([0, 150]);
+  };
+
   const filteredShows = shows.filter((show) => {
     const matchesSearch = !searchTerm || 
       show.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -84,7 +89,19 @@ const ExploreShows = () => {
                 </SheetHeader>
                 <div className="py-6 space-y-6">
                   <div>
-                    <h3 className="text-sm font-medium mb-4">Price Range</h3>
+                    <div className="flex justify-between items-center mb-4">
+                      <h3 className="text-sm font-medium">Price Range</h3>
+                      {getActiveFiltersCount() > 0 && (
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          onClick={clearFilters}
+                          className="text-sm text-muted-foreground hover:text-foreground"
+                        >
+                          Clear filters
+                        </Button>
+                      )}
+                    </div>
                     <div className="space-y-4">
                       <Slider
                         defaultValue={[0, 150]}
