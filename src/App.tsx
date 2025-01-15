@@ -6,21 +6,27 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import ProductPage from "./pages/ProductPage";
 import CheckoutPage from "./pages/CheckoutPage";
+import { Footer } from "./components/Footer";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/show/:id" element={<ProductPage />} />
-          <Route path="/checkout" element={<CheckoutPage />} />
-        </Routes>
-      </BrowserRouter>
+      <div className="min-h-screen flex flex-col">
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <main className="flex-1">
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/show/:id" element={<ProductPage />} />
+              <Route path="/checkout" element={<CheckoutPage />} />
+            </Routes>
+          </main>
+          <Footer />
+        </BrowserRouter>
+      </div>
     </TooltipProvider>
   </QueryClientProvider>
 );
