@@ -26,6 +26,7 @@ const ExploreShows = () => {
   const [selectedVenue, setSelectedVenue] = useState<string>("");
   const [priceRange, setPriceRange] = useState<string>("");
   const [dateRange, setDateRange] = useState<string>("");
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
   
   console.log("Filters applied:", { selectedVenue, priceRange, dateRange });
 
@@ -80,6 +81,7 @@ const ExploreShows = () => {
     setSelectedVenue("");
     setPriceRange("");
     setDateRange("");
+    setIsSheetOpen(false);
   };
 
   return (
@@ -98,7 +100,7 @@ const ExploreShows = () => {
                 className="pl-10"
               />
             </div>
-            <Sheet>
+            <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
               <SheetTrigger asChild>
                 <Button variant="outline" className="flex items-center gap-2">
                   <List className="h-4 w-4" />
