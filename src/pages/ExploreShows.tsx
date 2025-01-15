@@ -26,10 +26,10 @@ const ExploreShows = () => {
   const [selectedVenue, setSelectedVenue] = useState<string>("");
   const [priceRange, setPriceRange] = useState<string>("");
   const [dateRange, setDateRange] = useState<string>("");
-  const [isSheetOpen, setIsSheetOpen] = useState(false);
-  
-  console.log("Sheet state:", { isSheetOpen });
-  console.log("Filters applied:", { selectedVenue, priceRange, dateRange });
+  const [open, setOpen] = useState(false);
+
+  console.log("Sheet state:", { open });
+  console.log("Filters:", { selectedVenue, priceRange, dateRange });
 
   // Get unique venues for the filter
   const uniqueVenues = Array.from(new Set(shows.map((show) => show.venue)));
@@ -82,12 +82,7 @@ const ExploreShows = () => {
     setSelectedVenue("");
     setPriceRange("");
     setDateRange("");
-    setIsSheetOpen(false);
-  };
-
-  const handleSheetChange = (open: boolean) => {
-    console.log("Sheet state changing to:", open);
-    setIsSheetOpen(open);
+    setOpen(false);
   };
 
   return (
@@ -106,7 +101,7 @@ const ExploreShows = () => {
                 className="pl-10"
               />
             </div>
-            <Sheet open={isSheetOpen} onOpenChange={handleSheetChange}>
+            <Sheet open={open} onOpenChange={setOpen}>
               <SheetTrigger asChild>
                 <Button variant="outline" className="flex items-center gap-2">
                   <List className="h-4 w-4" />
