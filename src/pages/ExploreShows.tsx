@@ -6,6 +6,7 @@ import { Search, SlidersHorizontal } from "lucide-react";
 import { shows } from "@/data/shows";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
+import { Badge } from "@/components/ui/badge";
 import {
   Sheet,
   SheetContent,
@@ -23,6 +24,13 @@ const ExploreShows = () => {
   // Convert price strings to numbers for comparison
   const getPriceValue = (priceStr: string) => {
     return Number(priceStr.replace(/[^0-9.-]+/g, ""));
+  };
+
+  // Calculate number of active filters
+  const getActiveFiltersCount = () => {
+    let count = 0;
+    if (priceRange[0] > 0 || priceRange[1] < 150) count++;
+    return count;
   };
 
   const filteredShows = shows.filter((show) => {
@@ -55,8 +63,16 @@ const ExploreShows = () => {
             </div>
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant="outline" size="icon">
+                <Button variant="outline" size="icon" className="relative">
                   <SlidersHorizontal className="h-4 w-4" />
+                  {getActiveFiltersCount() > 0 && (
+                    <Badge 
+                      variant="secondary" 
+                      className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 text-xs"
+                    >
+                      {getActiveFiltersCount()}
+                    </Badge>
+                  )}
                 </Button>
               </SheetTrigger>
               <SheetContent>
