@@ -5,6 +5,7 @@ import { ShowCard } from "@/components/ShowCard";
 import { Search, SlidersHorizontal } from "lucide-react";
 import { shows } from "@/data/shows";
 import { Button } from "@/components/ui/button";
+import { Slider } from "@/components/ui/slider";
 import {
   Sheet,
   SheetContent,
@@ -17,6 +18,12 @@ import {
 const ExploreShows = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
+  const [priceRange, setPriceRange] = useState([0, 150]);
+
+  // Convert price strings to numbers for comparison
+  const getPriceValue = (priceStr: string) => {
+    return Number(priceStr.replace(/[^0-9.-]+/g, ""));
+  };
 
   const filteredShows = shows.filter((show) => {
     const matchesSearch = !searchTerm || 
@@ -24,7 +31,10 @@ const ExploreShows = () => {
       show.artist.toLowerCase().includes(searchTerm.toLowerCase()) ||
       show.venue.toLowerCase().includes(searchTerm.toLowerCase());
     
-    return matchesSearch;
+    const price = getPriceValue(show.price);
+    const matchesPrice = price >= priceRange[0] && price <= priceRange[1];
+    
+    return matchesSearch && matchesPrice;
   });
 
   return (
@@ -56,9 +66,24 @@ const ExploreShows = () => {
                     Apply filters to find the perfect show.
                   </SheetDescription>
                 </SheetHeader>
-                <div className="py-6">
-                  {/* Filter content will go here in future updates */}
-                  <p className="text-muted-foreground">Filter options coming soon...</p>
+                <div className="py-6 space-y-6">
+                  <div>
+                    <h3 className="text-sm font-medium mb-4">Price Range</h3>
+                    <div className="space-y-4">
+                      <Slider
+                        defaultValue={[0, 150]}
+                        max={150}
+                        step={1}
+                        value={priceRange}
+                        onValueChange={setPriceRange}
+                        className="w-full"
+                      />
+                      <div className="flex justify-between text-sm text-muted-foreground">
+                        <span>${priceRange[0]}</span>
+                        <span>${priceRange[1]}</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </SheetContent>
             </Sheet>
