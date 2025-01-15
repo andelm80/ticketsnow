@@ -3,20 +3,84 @@ import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ShowCard } from "@/components/ShowCard";
-import { Search, List } from "lucide-react";
+import { Search, List, X } from "lucide-react";
 import { shows } from "@/data/shows";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const ExploreShows = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedVenue, setSelectedVenue] = useState<string>("");
+  const [priceRange, setPriceRange] = useState<string>("");
+  const [dateRange, setDateRange] = useState<string>("");
   
-  console.log("Explore Shows page loaded");
+  console.log("Filters applied:", { selectedVenue, priceRange, dateRange });
 
-  const filteredShows = shows.filter((show) =>
-    show.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    show.artist.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    show.venue.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // Get unique venues for the filter
+  const uniqueVenues = Array.from(new Set(shows.map((show) => show.venue)));
+
+  const getPriceNumber = (price: string) => {
+    return Number(price.replace("$", ""));
+  };
+
+  const isInPriceRange = (price: string) => {
+    const priceNum = getPriceNumber(price);
+    switch (priceRange) {
+      case "under-50":
+        return priceNum < 50;
+      case "50-100":
+        return priceNum >= 50 && priceNum <= 100;
+      case "over-100":
+        return priceNum > 100;
+      default:
+        return true;
+    }
+  };
+
+  const isInDateRange = (date: string) => {
+    const showDate = new Date(date);
+    const today = new Date();
+    switch (dateRange) {
+      case "this-month":
+        return showDate.getMonth() === today.getMonth();
+      case "next-month":
+        return showDate.getMonth() === (today.getMonth() + 1) % 12;
+      default:
+        return true;
+    }
+  };
+
+  const filteredShows = shows.filter((show) => {
+    const matchesSearch =
+      show.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      show.artist.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      show.venue.toLowerCase().includes(searchTerm.toLowerCase());
+
+    const matchesVenue = selectedVenue ? show.venue === selectedVenue : true;
+    const matchesPrice = isInPriceRange(show.price);
+    const matchesDate = isInDateRange(show.date);
+
+    return matchesSearch && matchesVenue && matchesPrice && matchesDate;
+  });
+
+  const clearFilters = () => {
+    setSelectedVenue("");
+    setPriceRange("");
+    setDateRange("");
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -34,10 +98,77 @@ const ExploreShows = () => {
                 className="pl-10"
               />
             </div>
-            <Button variant="outline" className="flex items-center gap-2">
-              <List className="h-4 w-4" />
-              Filter
-            </Button>
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="outline" className="flex items-center gap-2">
+                  <List className="h-4 w-4" />
+                  Filter
+                </Button>
+              </SheetTrigger>
+              <SheetContent>
+                <SheetHeader>
+                  <SheetTitle>Filter Shows</SheetTitle>
+                </SheetHeader>
+                <div className="mt-6 space-y-6">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Venue</label>
+                    <Select value={selectedVenue} onValueChange={setSelectedVenue}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select venue" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="">All venues</SelectItem>
+                        {uniqueVenues.map((venue) => (
+                          <SelectItem key={venue} value={venue}>
+                            {venue}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Price Range</label>
+                    <Select value={priceRange} onValueChange={setPriceRange}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select price range" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="">Any price</SelectItem>
+                        <SelectItem value="under-50">Under $50</SelectItem>
+                        <SelectItem value="50-100">$50 - $100</SelectItem>
+                        <SelectItem value="over-100">Over $100</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Date</label>
+                    <Select value={dateRange} onValueChange={setDateRange}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select date range" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="">Any time</SelectItem>
+                        <SelectItem value="this-month">This Month</SelectItem>
+                        <SelectItem value="next-month">Next Month</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {(selectedVenue || priceRange || dateRange) && (
+                    <Button
+                      variant="outline"
+                      className="w-full mt-4"
+                      onClick={clearFilters}
+                    >
+                      <X className="h-4 w-4 mr-2" />
+                      Clear Filters
+                    </Button>
+                  )}
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
 
