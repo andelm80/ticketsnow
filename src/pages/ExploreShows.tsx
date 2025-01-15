@@ -20,6 +20,14 @@ const ExploreShows = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [priceRange, setPriceRange] = useState([0, 150]);
+  const [selectedLabels, setSelectedLabels] = useState<string[]>([]);
+
+  console.log("Selected labels:", selectedLabels);
+
+  // Get all unique labels from shows
+  const allLabels = Array.from(
+    new Set(shows.flatMap((show) => show.labels))
+  ).sort();
 
   // Convert price strings to numbers for comparison
   const getPriceValue = (priceStr: string) => {
@@ -30,6 +38,7 @@ const ExploreShows = () => {
   const getActiveFiltersCount = () => {
     let count = 0;
     if (priceRange[0] > 0 || priceRange[1] < 150) count++;
+    if (selectedLabels.length > 0) count++;
     return count;
   };
 
@@ -37,6 +46,15 @@ const ExploreShows = () => {
     console.log("Clearing all filters");
     setPriceRange([0, 150]);
     setSearchTerm("");
+    setSelectedLabels([]);
+  };
+
+  const toggleLabel = (label: string) => {
+    setSelectedLabels((prev) =>
+      prev.includes(label)
+        ? prev.filter((l) => l !== label)
+        : [...prev, label]
+    );
   };
 
   const filteredShows = shows.filter((show) => {
@@ -48,7 +66,10 @@ const ExploreShows = () => {
     const price = getPriceValue(show.price);
     const matchesPrice = price >= priceRange[0] && price <= priceRange[1];
     
-    return matchesSearch && matchesPrice;
+    const matchesLabels = selectedLabels.length === 0 || 
+      selectedLabels.every((label) => show.labels.includes(label));
+    
+    return matchesSearch && matchesPrice && matchesLabels;
   });
 
   return (
@@ -116,6 +137,22 @@ const ExploreShows = () => {
                         <span>${priceRange[0]}</span>
                         <span>${priceRange[1]}</span>
                       </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 className="text-sm font-medium mb-4">Labels</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {allLabels.map((label) => (
+                        <Badge
+                          key={label}
+                          variant={selectedLabels.includes(label) ? "default" : "outline"}
+                          className="cursor-pointer"
+                          onClick={() => toggleLabel(label)}
+                        >
+                          {label}
+                        </Badge>
+                      ))}
                     </div>
                   </div>
                 </div>
