@@ -36,6 +36,7 @@ const ExploreShows = () => {
   const clearFilters = () => {
     console.log("Clearing all filters");
     setPriceRange([0, 150]);
+    setSearchTerm("");
   };
 
   const filteredShows = shows.filter((show) => {
