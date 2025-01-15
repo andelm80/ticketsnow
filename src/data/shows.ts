@@ -32,7 +32,7 @@ export const shows: Show[] = [
   },
   {
     id: "rock-legends",
-    title: "Rock Legends",
+    title: "Ekans music Legends",
     artist: "The Rolling Stones",
     date: "June 1, 2024",
     time: "9:00 PM",
