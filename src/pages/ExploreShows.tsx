@@ -6,10 +6,13 @@ import { ShowCard } from "@/components/ShowCard";
 import { Search, List, X } from "lucide-react";
 import { shows } from "@/data/shows";
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   Select,
   SelectContent,
@@ -24,9 +27,7 @@ const ExploreShows = () => {
   const [selectedVenue, setSelectedVenue] = useState<string>("");
   const [priceRange, setPriceRange] = useState<string>("");
   const [dateRange, setDateRange] = useState<string>("");
-  const [isOpen, setIsOpen] = useState(false);
 
-  console.log("Filter state:", { isOpen });
   console.log("Applied filters:", { selectedVenue, priceRange, dateRange });
 
   // Get unique venues for the filter
@@ -80,7 +81,6 @@ const ExploreShows = () => {
     setSelectedVenue("");
     setPriceRange("");
     setDateRange("");
-    setIsOpen(false);
   };
 
   return (
@@ -99,15 +99,18 @@ const ExploreShows = () => {
                 className="pl-10"
               />
             </div>
-            <Popover open={isOpen} onOpenChange={setIsOpen}>
-              <PopoverTrigger asChild>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
                 <Button variant="outline" className="flex items-center gap-2">
                   <List className="h-4 w-4" />
                   Filter
                 </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-80 p-4">
-                <div className="space-y-4">
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-80 p-4">
+                <DropdownMenuLabel>Filter Shows</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                
+                <div className="space-y-4 p-2">
                   <div className="space-y-2">
                     <label className="text-sm font-medium">Venue</label>
                     <Select value={selectedVenue} onValueChange={setSelectedVenue}>
@@ -165,8 +168,8 @@ const ExploreShows = () => {
                     </Button>
                   )}
                 </div>
-              </PopoverContent>
-            </Popover>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
 
