@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ShowCard } from "@/components/ShowCard";
 import { Search, List } from "lucide-react";
-import { shows } from "./Index";
+import { shows } from "@/data/shows";
 
 const ExploreShows = () => {
   const navigate = useNavigate();

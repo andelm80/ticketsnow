@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Calendar, MapPin, Clock } from "lucide-react";
-import { shows } from "./Index";
+import { shows } from "@/data/shows";
 
 const ProductPage = () => {
   const { id } = useParams();
