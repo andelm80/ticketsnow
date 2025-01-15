@@ -28,6 +28,7 @@ const ExploreShows = () => {
   const [dateRange, setDateRange] = useState<string>("");
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   
+  console.log("Sheet state:", { isSheetOpen });
   console.log("Filters applied:", { selectedVenue, priceRange, dateRange });
 
   // Get unique venues for the filter
@@ -84,6 +85,11 @@ const ExploreShows = () => {
     setIsSheetOpen(false);
   };
 
+  const handleSheetChange = (open: boolean) => {
+    console.log("Sheet state changing to:", open);
+    setIsSheetOpen(open);
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto py-12">
@@ -100,7 +106,7 @@ const ExploreShows = () => {
                 className="pl-10"
               />
             </div>
-            <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+            <Sheet open={isSheetOpen} onOpenChange={handleSheetChange}>
               <SheetTrigger asChild>
                 <Button variant="outline" className="flex items-center gap-2">
                   <List className="h-4 w-4" />
