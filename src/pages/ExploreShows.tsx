@@ -6,13 +6,12 @@ import { ShowCard } from "@/components/ShowCard";
 import { Search, List, X } from "lucide-react";
 import { shows } from "@/data/shows";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import {
   Select,
   SelectContent,
@@ -99,18 +98,18 @@ const ExploreShows = () => {
                 className="pl-10"
               />
             </div>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
+            <Dialog>
+              <DialogTrigger asChild>
                 <Button variant="outline" className="flex items-center gap-2">
                   <List className="h-4 w-4" />
                   Filter
                 </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-80 p-4">
-                <DropdownMenuLabel>Filter Shows</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                
-                <div className="space-y-4 p-2">
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>Filter Shows</DialogTitle>
+                </DialogHeader>
+                <div className="space-y-4 py-4">
                   <div className="space-y-2">
                     <label className="text-sm font-medium">Venue</label>
                     <Select value={selectedVenue} onValueChange={setSelectedVenue}>
@@ -168,8 +167,8 @@ const ExploreShows = () => {
                     </Button>
                   )}
                 </div>
-              </DropdownMenuContent>
-            </DropdownMenu>
+              </DialogContent>
+            </Dialog>
           </div>
         </div>
 
