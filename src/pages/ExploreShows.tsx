@@ -6,12 +6,10 @@ import { ShowCard } from "@/components/ShowCard";
 import { Search, List, X } from "lucide-react";
 import { shows } from "@/data/shows";
 import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import {
   Select,
   SelectContent,
@@ -26,10 +24,10 @@ const ExploreShows = () => {
   const [selectedVenue, setSelectedVenue] = useState<string>("");
   const [priceRange, setPriceRange] = useState<string>("");
   const [dateRange, setDateRange] = useState<string>("");
-  const [open, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
-  console.log("Sheet state:", { open });
-  console.log("Filters:", { selectedVenue, priceRange, dateRange });
+  console.log("Filter state:", { isOpen });
+  console.log("Applied filters:", { selectedVenue, priceRange, dateRange });
 
   // Get unique venues for the filter
   const uniqueVenues = Array.from(new Set(shows.map((show) => show.venue)));
@@ -82,7 +80,7 @@ const ExploreShows = () => {
     setSelectedVenue("");
     setPriceRange("");
     setDateRange("");
-    setOpen(false);
+    setIsOpen(false);
   };
 
   return (
@@ -101,18 +99,15 @@ const ExploreShows = () => {
                 className="pl-10"
               />
             </div>
-            <Sheet open={open} onOpenChange={setOpen}>
-              <SheetTrigger asChild>
+            <Popover open={isOpen} onOpenChange={setIsOpen}>
+              <PopoverTrigger asChild>
                 <Button variant="outline" className="flex items-center gap-2">
                   <List className="h-4 w-4" />
                   Filter
                 </Button>
-              </SheetTrigger>
-              <SheetContent>
-                <SheetHeader>
-                  <SheetTitle>Filter Shows</SheetTitle>
-                </SheetHeader>
-                <div className="mt-6 space-y-6">
+              </PopoverTrigger>
+              <PopoverContent className="w-80 p-4">
+                <div className="space-y-4">
                   <div className="space-y-2">
                     <label className="text-sm font-medium">Venue</label>
                     <Select value={selectedVenue} onValueChange={setSelectedVenue}>
@@ -170,8 +165,8 @@ const ExploreShows = () => {
                     </Button>
                   )}
                 </div>
-              </SheetContent>
-            </Sheet>
+              </PopoverContent>
+            </Popover>
           </div>
         </div>
 
