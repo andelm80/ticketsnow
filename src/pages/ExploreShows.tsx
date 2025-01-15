@@ -1,150 +1,22 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { ShowCard } from "@/components/ShowCard";
-import { Search, List, X } from "lucide-react";
+import { Search } from "lucide-react";
 import { shows } from "@/data/shows";
-import {
-  AlertDialog,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-  AlertDialogFooter,
-} from "@/components/ui/alert-dialog";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
 const ExploreShows = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedVenue, setSelectedVenue] = useState<string>("");
-  const [priceRange, setPriceRange] = useState<string>("");
-  const [dateRange, setDateRange] = useState<string>("");
-  const [isFilterOpen, setIsFilterOpen] = useState(true);
-
-  // Get unique venues for the filter
-  const uniqueVenues = Array.from(new Set(shows.map((show) => show.venue)));
-
-  const getPriceNumber = (price: string) => {
-    return Number(price.replace("$", ""));
-  };
-
-  const isInPriceRange = (price: string) => {
-    // If no price range is selected, return true
-    if (!priceRange) {
-      console.log("No price range selected, showing all prices");
-      return true;
-    }
-    
-    const priceNum = getPriceNumber(price);
-    console.log(`Checking price ${price} (${priceNum}) against range ${priceRange}`);
-    
-    switch (priceRange) {
-      case "under-50":
-        return priceNum < 50;
-      case "50-100":
-        return priceNum >= 50 && priceNum <= 100;
-      case "over-100":
-        return priceNum > 100;
-      default:
-        return true;
-    }
-  };
-
-  const parseDate = (dateStr: string) => {
-    try {
-      console.log("Parsing date:", dateStr);
-      const [monthStr, dayStr, yearStr] = dateStr.split(", ")[0].split(" ");
-      const months: { [key: string]: number } = {
-        January: 0, February: 1, March: 2, April: 3, May: 4, June: 5,
-        July: 6, August: 7, September: 8, October: 9, November: 10, December: 11
-      };
-      
-      const month = months[monthStr];
-      const day = parseInt(dayStr, 10);
-      const year = parseInt(yearStr, 10);
-      
-      console.log(`Parsed date components: month=${month}, day=${day}, year=${year}`);
-      
-      if (isNaN(month) || isNaN(day) || isNaN(year)) {
-        console.error("Invalid date components");
-        return new Date(); // Return current date as fallback
-      }
-      
-      return new Date(year, month, day);
-    } catch (error) {
-      console.error("Error parsing date:", error);
-      return new Date(); // Return current date as fallback
-    }
-  };
-
-  const isInDateRange = (dateStr: string) => {
-    // If no date range is selected, return true
-    if (!dateRange) {
-      console.log("No date range selected, showing all dates");
-      return true;
-    }
-
-    const showDate = parseDate(dateStr);
-    const today = new Date();
-    const currentMonth = today.getMonth();
-    const showMonth = showDate.getMonth();
-
-    console.log(`Checking date ${dateStr} (month: ${showMonth}) against current month: ${currentMonth}`);
-
-    switch (dateRange) {
-      case "this-month":
-        return showMonth === currentMonth;
-      case "next-month":
-        return showMonth === (currentMonth + 1) % 12;
-      default:
-        return true;
-    }
-  };
 
   const filteredShows = shows.filter((show) => {
-    console.log(`\nFiltering show: ${show.title}`);
-    console.log("Current filters:", { searchTerm, selectedVenue, priceRange, dateRange });
-    
-    // Search term matching
     const matchesSearch = !searchTerm || 
       show.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       show.artist.toLowerCase().includes(searchTerm.toLowerCase()) ||
       show.venue.toLowerCase().includes(searchTerm.toLowerCase());
     
-    console.log("Matches search:", matchesSearch);
-
-    // Venue matching
-    const matchesVenue = !selectedVenue || show.venue === selectedVenue;
-    console.log("Matches venue:", matchesVenue);
-
-    // Price matching
-    const matchesPrice = isInPriceRange(show.price);
-    console.log("Matches price:", matchesPrice);
-
-    // Date matching
-    const matchesDate = isInDateRange(show.date);
-    console.log("Matches date:", matchesDate);
-
-    const shouldShow = matchesSearch && matchesVenue && matchesPrice && matchesDate;
-    console.log(`Show "${show.title}" should ${shouldShow ? "be shown" : "be hidden"}`);
-
-    return shouldShow;
+    return matchesSearch;
   });
-
-  const clearFilters = () => {
-    console.log("Clearing all filters");
-    setSelectedVenue("");
-    setPriceRange("");
-    setDateRange("");
-  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -162,81 +34,6 @@ const ExploreShows = () => {
                 className="pl-10"
               />
             </div>
-            <AlertDialog open={isFilterOpen} onOpenChange={setIsFilterOpen}>
-              <AlertDialogTrigger asChild>
-                <Button variant="outline" className="flex items-center gap-2">
-                  <List className="h-4 w-4" />
-                  Filter
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent className="sm:max-w-[425px]">
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Filter Shows</AlertDialogTitle>
-                </AlertDialogHeader>
-                <div className="space-y-4 py-4">
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Venue</label>
-                    <Select value={selectedVenue} onValueChange={setSelectedVenue}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select venue" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="">All venues</SelectItem>
-                        {uniqueVenues.map((venue) => (
-                          <SelectItem key={venue} value={venue}>
-                            {venue}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Price Range</label>
-                    <Select value={priceRange} onValueChange={setPriceRange}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select price range" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="">Any price</SelectItem>
-                        <SelectItem value="under-50">Under $50</SelectItem>
-                        <SelectItem value="50-100">$50 - $100</SelectItem>
-                        <SelectItem value="over-100">Over $100</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Date</label>
-                    <Select value={dateRange} onValueChange={setDateRange}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select date range" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="">Any time</SelectItem>
-                        <SelectItem value="this-month">This Month</SelectItem>
-                        <SelectItem value="next-month">Next Month</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-                <AlertDialogFooter className="flex justify-between">
-                  {(selectedVenue || priceRange || dateRange) && (
-                    <Button
-                      variant="outline"
-                      onClick={clearFilters}
-                      className="mr-2"
-                    >
-                      <X className="h-4 w-4 mr-2" />
-                      Clear Filters
-                    </Button>
-                  )}
-                  <Button onClick={() => setIsFilterOpen(false)}>
-                    Apply Filters
-                  </Button>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
           </div>
         </div>
 
