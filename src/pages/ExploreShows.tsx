@@ -2,8 +2,17 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { ShowCard } from "@/components/ShowCard";
-import { Search } from "lucide-react";
+import { Search, SlidersHorizontal } from "lucide-react";
 import { shows } from "@/data/shows";
+import { Button } from "@/components/ui/button";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 const ExploreShows = () => {
   const navigate = useNavigate();
@@ -34,6 +43,25 @@ const ExploreShows = () => {
                 className="pl-10"
               />
             </div>
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="outline" size="icon">
+                  <SlidersHorizontal className="h-4 w-4" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent>
+                <SheetHeader>
+                  <SheetTitle>Filters</SheetTitle>
+                  <SheetDescription>
+                    Apply filters to find the perfect show.
+                  </SheetDescription>
+                </SheetHeader>
+                <div className="py-6">
+                  {/* Filter content will go here in future updates */}
+                  <p className="text-muted-foreground">Filter options coming soon...</p>
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
 
