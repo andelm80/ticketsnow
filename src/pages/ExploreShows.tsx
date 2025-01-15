@@ -27,7 +27,7 @@ const ExploreShows = () => {
   const [priceRange, setPriceRange] = useState<string>("");
   const [dateRange, setDateRange] = useState<string>("");
 
-  console.log("Applied filters:", { selectedVenue, priceRange, dateRange });
+  console.log("Current filters:", { selectedVenue, priceRange, dateRange });
 
   // Get unique venues for the filter
   const uniqueVenues = Array.from(new Set(shows.map((show) => show.venue)));
@@ -38,6 +38,7 @@ const ExploreShows = () => {
 
   const isInPriceRange = (price: string) => {
     const priceNum = getPriceNumber(price);
+    console.log("Checking price:", price, "as number:", priceNum);
     switch (priceRange) {
       case "under-50":
         return priceNum < 50;
@@ -50,28 +51,45 @@ const ExploreShows = () => {
     }
   };
 
-  const isInDateRange = (date: string) => {
-    const showDate = new Date(date);
+  const isInDateRange = (dateStr: string) => {
+    if (!dateRange) return true;
+
+    const showDate = new Date(dateStr);
     const today = new Date();
+    const currentMonth = today.getMonth();
+    const showMonth = showDate.getMonth();
+
+    console.log("Checking date:", dateStr, "Show month:", showMonth, "Current month:", currentMonth);
+
     switch (dateRange) {
       case "this-month":
-        return showDate.getMonth() === today.getMonth();
+        return showMonth === currentMonth;
       case "next-month":
-        return showDate.getMonth() === (today.getMonth() + 1) % 12;
+        return showMonth === (currentMonth + 1) % 12;
       default:
         return true;
     }
   };
 
   const filteredShows = shows.filter((show) => {
-    const matchesSearch =
-      show.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      show.artist.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      show.venue.toLowerCase().includes(searchTerm.toLowerCase());
+    console.log("Filtering show:", show.title);
+    
+    const matchesSearch = searchTerm
+      ? show.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        show.artist.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        show.venue.toLowerCase().includes(searchTerm.toLowerCase())
+      : true;
 
     const matchesVenue = selectedVenue ? show.venue === selectedVenue : true;
     const matchesPrice = isInPriceRange(show.price);
     const matchesDate = isInDateRange(show.date);
+
+    console.log("Filter results for", show.title, {
+      matchesSearch,
+      matchesVenue,
+      matchesPrice,
+      matchesDate
+    });
 
     return matchesSearch && matchesVenue && matchesPrice && matchesDate;
   });
