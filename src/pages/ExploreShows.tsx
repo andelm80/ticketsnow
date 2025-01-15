@@ -27,7 +27,7 @@ const ExploreShows = () => {
   const [priceRange, setPriceRange] = useState<string>("");
   const [dateRange, setDateRange] = useState<string>("");
 
-  console.log("Current filters:", { selectedVenue, priceRange, dateRange });
+  console.log("Current filters:", { searchTerm, selectedVenue, priceRange, dateRange });
 
   // Get unique venues for the filter
   const uniqueVenues = Array.from(new Set(shows.map((show) => show.venue)));
@@ -37,8 +37,11 @@ const ExploreShows = () => {
   };
 
   const isInPriceRange = (price: string) => {
+    if (!priceRange) return true;
+    
     const priceNum = getPriceNumber(price);
     console.log("Checking price:", price, "as number:", priceNum);
+    
     switch (priceRange) {
       case "under-50":
         return priceNum < 50;
@@ -51,10 +54,19 @@ const ExploreShows = () => {
     }
   };
 
+  const parseDate = (dateStr: string) => {
+    const [month, day, year] = dateStr.split(", ")[0].split(" ");
+    const months = {
+      January: 0, February: 1, March: 2, April: 3, May: 4, June: 5,
+      July: 6, August: 7, September: 8, October: 9, November: 10, December: 11
+    };
+    return new Date(Number(year), months[month as keyof typeof months], Number(day));
+  };
+
   const isInDateRange = (dateStr: string) => {
     if (!dateRange) return true;
 
-    const showDate = new Date(dateStr);
+    const showDate = parseDate(dateStr);
     const today = new Date();
     const currentMonth = today.getMonth();
     const showMonth = showDate.getMonth();
@@ -74,13 +86,12 @@ const ExploreShows = () => {
   const filteredShows = shows.filter((show) => {
     console.log("Filtering show:", show.title);
     
-    const matchesSearch = searchTerm
-      ? show.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        show.artist.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        show.venue.toLowerCase().includes(searchTerm.toLowerCase())
-      : true;
+    const matchesSearch = !searchTerm || 
+      show.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      show.artist.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      show.venue.toLowerCase().includes(searchTerm.toLowerCase());
 
-    const matchesVenue = selectedVenue ? show.venue === selectedVenue : true;
+    const matchesVenue = !selectedVenue || show.venue === selectedVenue;
     const matchesPrice = isInPriceRange(show.price);
     const matchesDate = isInDateRange(show.date);
 
@@ -88,7 +99,8 @@ const ExploreShows = () => {
       matchesSearch,
       matchesVenue,
       matchesPrice,
-      matchesDate
+      matchesDate,
+      filters: { searchTerm, selectedVenue, priceRange, dateRange }
     });
 
     return matchesSearch && matchesVenue && matchesPrice && matchesDate;
