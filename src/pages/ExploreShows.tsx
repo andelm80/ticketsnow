@@ -27,8 +27,6 @@ const ExploreShows = () => {
   const [priceRange, setPriceRange] = useState<string>("");
   const [dateRange, setDateRange] = useState<string>("");
 
-  console.log("Current filters:", { searchTerm, selectedVenue, priceRange, dateRange });
-
   // Get unique venues for the filter
   const uniqueVenues = Array.from(new Set(shows.map((show) => show.venue)));
 
@@ -37,10 +35,14 @@ const ExploreShows = () => {
   };
 
   const isInPriceRange = (price: string) => {
-    if (!priceRange) return true;
+    // If no price range is selected, return true
+    if (!priceRange) {
+      console.log("No price range selected, showing all prices");
+      return true;
+    }
     
     const priceNum = getPriceNumber(price);
-    console.log("Checking price:", price, "as number:", priceNum);
+    console.log(`Checking price ${price} (${priceNum}) against range ${priceRange}`);
     
     switch (priceRange) {
       case "under-50":
@@ -55,23 +57,45 @@ const ExploreShows = () => {
   };
 
   const parseDate = (dateStr: string) => {
-    const [month, day, year] = dateStr.split(", ")[0].split(" ");
-    const months = {
-      January: 0, February: 1, March: 2, April: 3, May: 4, June: 5,
-      July: 6, August: 7, September: 8, October: 9, November: 10, December: 11
-    };
-    return new Date(Number(year), months[month as keyof typeof months], Number(day));
+    try {
+      console.log("Parsing date:", dateStr);
+      const [monthStr, dayStr, yearStr] = dateStr.split(", ")[0].split(" ");
+      const months: { [key: string]: number } = {
+        January: 0, February: 1, March: 2, April: 3, May: 4, June: 5,
+        July: 6, August: 7, September: 8, October: 9, November: 10, December: 11
+      };
+      
+      const month = months[monthStr];
+      const day = parseInt(dayStr, 10);
+      const year = parseInt(yearStr, 10);
+      
+      console.log(`Parsed date components: month=${month}, day=${day}, year=${year}`);
+      
+      if (isNaN(month) || isNaN(day) || isNaN(year)) {
+        console.error("Invalid date components");
+        return new Date(); // Return current date as fallback
+      }
+      
+      return new Date(year, month, day);
+    } catch (error) {
+      console.error("Error parsing date:", error);
+      return new Date(); // Return current date as fallback
+    }
   };
 
   const isInDateRange = (dateStr: string) => {
-    if (!dateRange) return true;
+    // If no date range is selected, return true
+    if (!dateRange) {
+      console.log("No date range selected, showing all dates");
+      return true;
+    }
 
     const showDate = parseDate(dateStr);
     const today = new Date();
     const currentMonth = today.getMonth();
     const showMonth = showDate.getMonth();
 
-    console.log("Checking date:", dateStr, "Show month:", showMonth, "Current month:", currentMonth);
+    console.log(`Checking date ${dateStr} (month: ${showMonth}) against current month: ${currentMonth}`);
 
     switch (dateRange) {
       case "this-month":
@@ -84,29 +108,37 @@ const ExploreShows = () => {
   };
 
   const filteredShows = shows.filter((show) => {
-    console.log("Filtering show:", show.title);
+    console.log(`\nFiltering show: ${show.title}`);
+    console.log("Current filters:", { searchTerm, selectedVenue, priceRange, dateRange });
     
+    // Search term matching
     const matchesSearch = !searchTerm || 
       show.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       show.artist.toLowerCase().includes(searchTerm.toLowerCase()) ||
       show.venue.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    console.log("Matches search:", matchesSearch);
 
+    // Venue matching
     const matchesVenue = !selectedVenue || show.venue === selectedVenue;
+    console.log("Matches venue:", matchesVenue);
+
+    // Price matching
     const matchesPrice = isInPriceRange(show.price);
+    console.log("Matches price:", matchesPrice);
+
+    // Date matching
     const matchesDate = isInDateRange(show.date);
+    console.log("Matches date:", matchesDate);
 
-    console.log("Filter results for", show.title, {
-      matchesSearch,
-      matchesVenue,
-      matchesPrice,
-      matchesDate,
-      filters: { searchTerm, selectedVenue, priceRange, dateRange }
-    });
+    const shouldShow = matchesSearch && matchesVenue && matchesPrice && matchesDate;
+    console.log(`Show "${show.title}" should ${shouldShow ? "be shown" : "be hidden"}`);
 
-    return matchesSearch && matchesVenue && matchesPrice && matchesDate;
+    return shouldShow;
   });
 
   const clearFilters = () => {
+    console.log("Clearing all filters");
     setSelectedVenue("");
     setPriceRange("");
     setDateRange("");
