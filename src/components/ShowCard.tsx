@@ -1,5 +1,6 @@
 import { Calendar, MapPin, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 
 interface ShowCardProps {
@@ -11,6 +12,7 @@ interface ShowCardProps {
   venue: string;
   image: string;
   price: string;
+  labels: string[];
   onBuyTickets: () => void;
 }
 
@@ -22,6 +24,7 @@ export const ShowCard = ({
   venue,
   image,
   price,
+  labels,
   onBuyTickets,
 }: ShowCardProps) => {
   return (
@@ -49,6 +52,17 @@ export const ShowCard = ({
             <MapPin className="w-4 h-4 text-ticket-gold" />
             <span className="text-sm">{venue}</span>
           </div>
+        </div>
+        <div className="flex flex-wrap gap-2 mt-4">
+          {labels.map((label) => (
+            <Badge
+              key={label}
+              variant="secondary"
+              className="bg-ticket-purple/10 text-ticket-purple hover:bg-ticket-purple/20"
+            >
+              {label}
+            </Badge>
+          ))}
         </div>
       </CardContent>
       <CardFooter className="p-4 flex justify-between items-center">

@@ -7,6 +7,7 @@ export interface Show {
   venue: string;
   image: string;
   price: string;
+  labels: string[];
 }
 
 export const shows: Show[] = [
@@ -19,6 +20,7 @@ export const shows: Show[] = [
     venue: "Royal Albert Hall",
     image: "https://images.unsplash.com/photo-1519682577862-22b62b24e493?q=80&w=1170&auto=format&fit=crop",
     price: "$75",
+    labels: ["Classical", "Orchestra", "Family-friendly"],
   },
   {
     id: "jazz-night",
@@ -29,6 +31,7 @@ export const shows: Show[] = [
     venue: "Blue Note Jazz Club",
     image: "https://images.unsplash.com/photo-1415201364774-f6f0bb35f28f?q=80&w=1170&auto=format&fit=crop",
     price: "$45",
+    labels: ["Jazz", "Live Music", "21+"],
   },
   {
     id: "rock-legends",
@@ -39,6 +42,7 @@ export const shows: Show[] = [
     venue: "Madison Square Garden",
     image: "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?q=80&w=1170&auto=format&fit=crop",
     price: "$120",
+    labels: ["Rock", "Concert", "All Ages"],
   },
   {
     id: "opera-gala",
@@ -49,5 +53,6 @@ export const shows: Show[] = [
     venue: "Sydney Opera House",
     image: "https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?q=80&w=1169&auto=format&fit=crop",
     price: "$90",
+    labels: ["Opera", "Classical", "Formal"],
   },
 ];
