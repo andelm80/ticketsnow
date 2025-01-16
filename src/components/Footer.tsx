@@ -2,6 +2,10 @@ import { Github, Twitter } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export const Footer = () => {
+  const handleExploreClick = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <footer className="border-t mt-auto">
       <div className="container mx-auto py-8">
@@ -22,7 +26,11 @@ export const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/explore" className="text-muted-foreground hover:text-primary">
+                <Link 
+                  to="/explore" 
+                  className="text-muted-foreground hover:text-primary"
+                  onClick={handleExploreClick}
+                >
                   Explore Shows
                 </Link>
               </li>
