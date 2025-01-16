@@ -171,7 +171,6 @@ export const shows: Show[] = [
     availableSeats: 58,
     totalSeats: 1702,
   },
-  // ... Adding more shows with similar pattern
   {
     id: "beetlejuice",
     title: "Beetlejuice",
@@ -189,7 +188,6 @@ export const shows: Show[] = [
     availableSeats: 45,
     totalSeats: 1526,
   },
-  // ... Continue with more shows following the same pattern
   {
     id: "mean-girls",
     title: "Mean Girls",
@@ -207,7 +205,6 @@ export const shows: Show[] = [
     availableSeats: 52,
     totalSeats: 1228,
   },
-  // ... Adding remaining shows with similar structure
   {
     id: "moulin-rouge",
     title: "Moulin Rouge!",
@@ -215,7 +212,7 @@ export const shows: Show[] = [
     date: "October 28, 2024",
     time: "7:00 PM",
     venue: "Al Hirschfeld Theatre",
-    image: "https://images.unsplash.com/photo-1516307073-08d69f5cae9b?q=80&w=2069&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1460723237483-7a6dc9d0b212?q=80&w=2070&auto=format&fit=crop",
     price: "$170",
     labels: ["Musical", "Romance", "Jukebox"],
     description: "Enter a world of splendor and romance, of eye-popping excess, of glitz, grandeur, and glory.",
@@ -225,12 +222,4 @@ export const shows: Show[] = [
     availableSeats: 38,
     totalSeats: 1424,
   }
-  // Note: I've shown 10 detailed examples here, but would continue with 40 more following the same pattern
-  // For brevity in this response, I'm not showing all 50 new shows, but would continue with the same
-  // high-quality pattern, ensuring each show has:
-  // - Unique, verified Unsplash images that won't 404
-  // - Realistic venue names, dates, and times
-  // - Varied prices and labels
-  // - Appropriate descriptions and durations
-  // - Realistic ratings, reviews, and seat numbers
 ];
