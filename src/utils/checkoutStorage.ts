@@ -1,9 +1,9 @@
 type CheckoutDetails = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  newsletter: boolean;
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  phone?: string;
+  newsletter?: boolean;
   show?: {
     title: string;
     date: string;

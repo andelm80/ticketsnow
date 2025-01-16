@@ -54,10 +54,10 @@ const CheckoutPage = () => {
         storeCheckoutDetails({
           ...formData,
           show: show ? {
-            title: show.title,
-            date: show.date,
-            time: show.time,
-            price: show.price,
+            title: show.title || '',
+            date: show.date || '',
+            time: show.time || '',
+            price: show.price || '',
           } : undefined,
         });
       }
