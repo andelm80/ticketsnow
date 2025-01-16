@@ -34,7 +34,7 @@ export const Hero = () => {
           }}
         >
           <source
-            src="https://static.videezy.com/system/resources/previews/000/042/012/original/Broadway_01.mp4"
+            src="https://cdn.coverr.co/videos/coverr-broadway-lights-at-night-2633/1080p.mp4"
             type="video/mp4"
           />
           Your browser does not support the video tag.
