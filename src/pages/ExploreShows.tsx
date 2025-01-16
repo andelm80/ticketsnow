@@ -22,6 +22,7 @@ const ExploreShows = () => {
   const [priceRange, setPriceRange] = useState([0, 150]);
   const [selectedLabels, setSelectedLabels] = useState<string[]>([]);
 
+  console.log("Number of shows:", shows.length);
   console.log("Selected labels:", selectedLabels);
 
   // Get all unique labels from shows
@@ -71,6 +72,8 @@ const ExploreShows = () => {
     
     return matchesSearch && matchesPrice && matchesLabels;
   });
+
+  console.log("Filtered shows count:", filteredShows.length);
 
   return (
     <div className="min-h-screen bg-background">
@@ -161,7 +164,7 @@ const ExploreShows = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredShows.length > 0 ? (
             filteredShows.map((show) => (
               <ShowCard
