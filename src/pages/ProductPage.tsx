@@ -82,6 +82,10 @@ const ProductPage = () => {
                 <span>{show.venue}</span>
               </div>
             </div>
+
+            <div className="py-4 border-t border-b">
+              <p className="text-gray-700 leading-relaxed">{show.description}</p>
+            </div>
             
             <div className="pt-6">
               <p className="text-3xl font-bold text-ticket-purple mb-4">
