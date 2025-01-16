@@ -19,11 +19,10 @@ import {
 const ExploreShows = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
-  const [priceRange, setPriceRange] = useState([0, 150]);
+  const [priceRange, setPriceRange] = useState([0, 200]); // Updated max price to 200
   const [selectedLabels, setSelectedLabels] = useState<string[]>([]);
 
-  console.log("Number of shows:", shows.length);
-  console.log("Selected labels:", selectedLabels);
+  console.log("Total shows in data:", shows.length);
 
   // Get all unique labels from shows
   const allLabels = Array.from(
@@ -38,14 +37,15 @@ const ExploreShows = () => {
   // Calculate number of active filters
   const getActiveFiltersCount = () => {
     let count = 0;
-    if (priceRange[0] > 0 || priceRange[1] < 150) count++;
+    if (priceRange[0] > 0 || priceRange[1] < 200) count++;
     if (selectedLabels.length > 0) count++;
+    if (searchTerm.length > 0) count++;
     return count;
   };
 
   const clearFilters = () => {
     console.log("Clearing all filters");
-    setPriceRange([0, 150]);
+    setPriceRange([0, 200]);
     setSearchTerm("");
     setSelectedLabels([]);
   };
@@ -69,11 +69,15 @@ const ExploreShows = () => {
     
     const matchesLabels = selectedLabels.length === 0 || 
       selectedLabels.every((label) => show.labels.includes(label));
-    
+
     return matchesSearch && matchesPrice && matchesLabels;
   });
 
   console.log("Filtered shows count:", filteredShows.length);
+  console.log("Active filters count:", getActiveFiltersCount());
+  console.log("Price range:", priceRange);
+  console.log("Selected labels:", selectedLabels);
+  console.log("Search term:", searchTerm);
 
   return (
     <div className="min-h-screen bg-background">
@@ -129,8 +133,8 @@ const ExploreShows = () => {
                     </div>
                     <div className="space-y-4">
                       <Slider
-                        defaultValue={[0, 150]}
-                        max={150}
+                        defaultValue={[0, 200]}
+                        max={200}
                         step={1}
                         value={priceRange}
                         onValueChange={setPriceRange}
