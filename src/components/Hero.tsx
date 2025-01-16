@@ -31,6 +31,12 @@ export const Hero = () => {
             transform: `translateY(${scrollPosition * 0.5}px)`,
           }}
         />
+        <div 
+          className="absolute inset-0"
+          style={{
+            background: "linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.6) 100%)",
+          }}
+        />
       </div>
       <div className="relative z-10 text-center text-white p-8">
         <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in">
