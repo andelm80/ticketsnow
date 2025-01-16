@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 export const Hero = () => {
   const navigate = useNavigate();
   const [scrollPosition, setScrollPosition] = useState(0);
+  const [videoError, setVideoError] = useState<string | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -19,8 +20,22 @@ export const Hero = () => {
   useEffect(() => {
     if (videoRef.current) {
       console.log("Video element loaded");
+      console.log("Video source:", videoRef.current.currentSrc);
+      console.log("Video ready state:", videoRef.current.readyState);
+      
       videoRef.current.play().catch(error => {
-        console.log("Error playing video:", error);
+        console.error("Error playing video:", error);
+        setVideoError(error.message);
+      });
+
+      // Add event listeners for debugging
+      videoRef.current.addEventListener('loadeddata', () => {
+        console.log("Video data loaded successfully");
+      });
+
+      videoRef.current.addEventListener('error', (e) => {
+        console.error("Video error:", e);
+        setVideoError("Failed to load video");
       });
     }
   }, []);
@@ -53,6 +68,11 @@ export const Hero = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-ticket-purple to-ticket-blue opacity-90" />
       </div>
       <div className="relative z-10 text-center text-white p-8">
+        {videoError && (
+          <div className="bg-red-500/80 p-2 mb-4 rounded">
+            Error loading video: {videoError}
+          </div>
+        )}
         <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in">
           Live the Music
         </h1>
