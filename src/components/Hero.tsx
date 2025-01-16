@@ -1,7 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const Hero = () => {
+  const navigate = useNavigate();
   const [scrollPosition, setScrollPosition] = useState(0);
 
   useEffect(() => {
@@ -12,6 +14,11 @@ export const Hero = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleExploreClick = () => {
+    console.log("Navigating to explore page");
+    navigate("/explore");
+  };
 
   return (
     <div className="relative h-[70vh] flex items-center justify-center overflow-hidden">
@@ -36,6 +43,7 @@ export const Hero = () => {
         <Button
           size="lg"
           className="bg-ticket-blue text-white hover:opacity-90 transition-all duration-300 animate-fade-in"
+          onClick={handleExploreClick}
         >
           Explore Shows
         </Button>
