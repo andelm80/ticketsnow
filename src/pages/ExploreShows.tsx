@@ -7,7 +7,7 @@ import { shows } from "@/data/shows";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
-import { format, parse, isAfter, isBefore, isEqual } from "date-fns";
+import { format, parse, getMonth, getYear } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import {
@@ -27,7 +27,7 @@ const ExploreShows = () => {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
 
   console.log("Total shows in data:", shows.length);
-  console.log("Selected date:", selectedDate);
+  console.log("Selected month:", selectedDate ? format(selectedDate, 'MMMM yyyy') : 'None');
 
   // Get all unique labels from shows
   const allLabels = Array.from(
@@ -77,16 +77,16 @@ const ExploreShows = () => {
     const matchesLabels = selectedLabels.length === 0 || 
       selectedLabels.every((label) => show.labels.includes(label));
 
-    // Date filtering
-    const matchesDate = !selectedDate || (() => {
+    // Month filtering
+    const matchesMonth = !selectedDate || (() => {
       const showDate = parse(show.date, "MMMM d, yyyy", new Date());
-      return isEqual(
-        new Date(showDate.getFullYear(), showDate.getMonth(), showDate.getDate()),
-        new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate())
+      return (
+        getMonth(showDate) === getMonth(selectedDate) &&
+        getYear(showDate) === getYear(selectedDate)
       );
     })();
 
-    return matchesSearch && matchesPrice && matchesLabels && matchesDate;
+    return matchesSearch && matchesPrice && matchesLabels && matchesMonth;
   });
 
   console.log("Filtered shows count:", filteredShows.length);
@@ -164,7 +164,7 @@ const ExploreShows = () => {
                   </div>
 
                   <div>
-                    <h3 className="text-sm font-medium mb-4">Date</h3>
+                    <h3 className="text-sm font-medium mb-4">Month</h3>
                     <Popover>
                       <PopoverTrigger asChild>
                         <Button
@@ -175,9 +175,9 @@ const ExploreShows = () => {
                         >
                           <CalendarIcon className="mr-2 h-4 w-4" />
                           {selectedDate ? (
-                            format(selectedDate, "PPP")
+                            format(selectedDate, "MMMM yyyy")
                           ) : (
-                            <span>Pick a date</span>
+                            <span>Select month</span>
                           )}
                         </Button>
                       </PopoverTrigger>
