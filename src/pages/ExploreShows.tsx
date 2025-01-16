@@ -2,14 +2,19 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { ShowCard } from "@/components/ShowCard";
-import { Search, SlidersHorizontal, Calendar as CalendarIcon } from "lucide-react";
+import { Search, SlidersHorizontal } from "lucide-react";
 import { shows } from "@/data/shows";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
 import { format, parse, getMonth, getYear } from "date-fns";
-import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Sheet,
   SheetContent,
@@ -24,14 +29,24 @@ const ExploreShows = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [priceRange, setPriceRange] = useState([0, 200]);
   const [selectedLabels, setSelectedLabels] = useState<string[]>([]);
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
+  const [selectedMonth, setSelectedMonth] = useState<string>("");
 
   console.log("Total shows in data:", shows.length);
-  console.log("Selected month:", selectedDate ? format(selectedDate, 'MMMM yyyy') : 'None');
+  console.log("Selected month:", selectedMonth || 'None');
 
   // Get all unique labels from shows
   const allLabels = Array.from(
     new Set(shows.flatMap((show) => show.labels))
+  ).sort();
+
+  // Get all available months from shows
+  const availableMonths = Array.from(
+    new Set(
+      shows.map((show) => {
+        const date = parse(show.date, "MMMM d, yyyy", new Date());
+        return format(date, "MMMM yyyy");
+      })
+    )
   ).sort();
 
   // Convert price strings to numbers for comparison
@@ -45,7 +60,7 @@ const ExploreShows = () => {
     if (priceRange[0] > 0 || priceRange[1] < 200) count++;
     if (selectedLabels.length > 0) count++;
     if (searchTerm.length > 0) count++;
-    if (selectedDate) count++;
+    if (selectedMonth) count++;
     return count;
   };
 
@@ -54,7 +69,7 @@ const ExploreShows = () => {
     setPriceRange([0, 200]);
     setSearchTerm("");
     setSelectedLabels([]);
-    setSelectedDate(undefined);
+    setSelectedMonth("");
   };
 
   const toggleLabel = (label: string) => {
@@ -78,12 +93,9 @@ const ExploreShows = () => {
       selectedLabels.every((label) => show.labels.includes(label));
 
     // Month filtering
-    const matchesMonth = !selectedDate || (() => {
+    const matchesMonth = !selectedMonth || (() => {
       const showDate = parse(show.date, "MMMM d, yyyy", new Date());
-      return (
-        getMonth(showDate) === getMonth(selectedDate) &&
-        getYear(showDate) === getYear(selectedDate)
-      );
+      return format(showDate, "MMMM yyyy") === selectedMonth;
     })();
 
     return matchesSearch && matchesPrice && matchesLabels && matchesMonth;
@@ -165,31 +177,18 @@ const ExploreShows = () => {
 
                   <div>
                     <h3 className="text-sm font-medium mb-4">Month</h3>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <Button
-                          variant="outline"
-                          className={`w-full justify-start text-left font-normal ${
-                            !selectedDate && "text-muted-foreground"
-                          }`}
-                        >
-                          <CalendarIcon className="mr-2 h-4 w-4" />
-                          {selectedDate ? (
-                            format(selectedDate, "MMMM yyyy")
-                          ) : (
-                            <span>Select month</span>
-                          )}
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
-                        <Calendar
-                          mode="single"
-                          selected={selectedDate}
-                          onSelect={setSelectedDate}
-                          initialFocus
-                        />
-                      </PopoverContent>
-                    </Popover>
+                    <Select value={selectedMonth} onValueChange={setSelectedMonth}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select month" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {availableMonths.map((month) => (
+                          <SelectItem key={month} value={month}>
+                            {month}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
 
                   <div>
