@@ -22,16 +22,25 @@ export const Hero = () => {
 
   return (
     <div className="relative h-[70vh] flex items-center justify-center overflow-hidden">
-      <div
-        className="absolute inset-0 bg-gradient-to-r from-ticket-purple to-ticket-blue opacity-90"
-        style={{
-          backgroundImage: "url('https://tutanentertainment.com/wp-content/uploads/2024/05/Evolution-of-Musical-Theatre.jpg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundAttachment: "fixed",
-          transform: `translateY(${scrollPosition * 0.5}px)`,
-        }}
-      />
+      <div className="absolute inset-0">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="w-full h-full object-cover"
+          style={{
+            transform: `translateY(${scrollPosition * 0.5}px)`,
+          }}
+        >
+          <source
+            src="https://static.videezy.com/system/resources/previews/000/042/012/original/Broadway_01.mp4"
+            type="video/mp4"
+          />
+          Your browser does not support the video tag.
+        </video>
+        <div className="absolute inset-0 bg-gradient-to-r from-ticket-purple to-ticket-blue opacity-90" />
+      </div>
       <div className="relative z-10 text-center text-white p-8">
         <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in">
           Live the Music
