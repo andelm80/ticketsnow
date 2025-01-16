@@ -15,7 +15,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { storeCheckoutDetails } from "@/utils/checkoutStorage";
 
 const formSchema = z.object({
   firstName: z.string().min(1, "First name is required"),
@@ -43,6 +44,25 @@ const CheckoutPage = () => {
       newsletter: false,
     },
   });
+
+  // Store form data when component unmounts
+  useEffect(() => {
+    return () => {
+      const formData = form.getValues();
+      if (formData.email) { // Only store if there's at least an email (indicating user started filling the form)
+        console.log('Storing checkout details on unmount');
+        storeCheckoutDetails({
+          ...formData,
+          show: show ? {
+            title: show.title,
+            date: show.date,
+            time: show.time,
+            price: show.price,
+          } : undefined,
+        });
+      }
+    };
+  }, [form, show]);
 
   const handleNewsletterSignup = () => {
     if (newsletterEmail) {
