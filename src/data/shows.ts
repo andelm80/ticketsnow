@@ -5,7 +5,7 @@ export const shows: Show[] = [
     id: "hamilton",
     title: "Hamilton",
     artist: "Lin-Manuel Miranda",
-    date: "October 1, 2025",
+    date: "October 10, 2025",
     time: "8:00 PM",
     venue: "Richard Rodgers Theatre",
     image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=1170&auto=format&fit=crop",
