@@ -45,7 +45,7 @@ export const Hero = () => {
           }}
         >
           <source
-            src="https://cdn.coverr.co/videos/coverr-broadway-lights-at-night-2633/1080p.mp4"
+            src="https://assets.mixkit.co/videos/preview/mixkit-broadway-theaters-in-the-middle-of-times-square-4176-large.mp4"
             type="video/mp4"
           />
           Your browser does not support the video tag.
