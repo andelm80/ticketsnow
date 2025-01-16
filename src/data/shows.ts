@@ -283,7 +283,7 @@ export const shows: Show[] = [
     date: "September 30, 2024",
     time: "7:30 PM",
     venue: "Walter Kerr Theatre",
-    image: "https://images.unsplash.com/photo-1504533212735-5df27d970db9?q=80&w=1170&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1473177104440-ffee2f376098?q=80&w=1170&auto=format&fit=crop",
     price: "$145",
     labels: ["Musical", "Folk", "Mythology"],
     description: "Journey to the underworld in Hadestown, a modern retelling of the ancient Greek myth of Orpheus and Eurydice, set to a folk-inspired score.",
