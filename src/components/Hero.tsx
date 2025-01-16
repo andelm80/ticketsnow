@@ -24,8 +24,8 @@ export const Hero = () => {
     <div className="relative h-[70vh] flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0">
         <img
-          src="https://images.unsplash.com/photo-1506744038136-46273834b3fb"
-          alt="Concert venue"
+          src="https://images.unsplash.com/photo-1511735111819-9a3f7709049c"
+          alt="Musical performance"
           className="w-full h-full object-cover"
           style={{
             transform: `translateY(${scrollPosition * 0.5}px)`,
