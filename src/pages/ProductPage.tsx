@@ -3,10 +3,15 @@ import { Button } from "@/components/ui/button";
 import { Calendar, MapPin, Clock } from "lucide-react";
 import { shows } from "@/data/shows";
 import { Helmet } from "react-helmet";
+import { useEffect } from "react";
 
 const ProductPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   
   console.log("Product page loaded with ID:", id);
   
