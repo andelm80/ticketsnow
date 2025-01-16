@@ -2,12 +2,12 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { ShowCard } from "@/components/ShowCard";
-import { Search, SlidersHorizontal } from "lucide-react";
+import { Search, SlidersHorizontal, X } from "lucide-react";
 import { shows } from "@/data/shows";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
-import { format, parse, getMonth, getYear } from "date-fns";
+import { format, parse } from "date-fns";
 import {
   Select,
   SelectContent,
@@ -123,6 +123,17 @@ const ExploreShows = () => {
                 className="pl-10"
               />
             </div>
+            {getActiveFiltersCount() > 0 && (
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={clearFilters}
+                className="shrink-0"
+                title="Clear all filters"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            )}
             <Sheet>
               <SheetTrigger asChild>
                 <Button variant="outline" size="icon" className="relative">
