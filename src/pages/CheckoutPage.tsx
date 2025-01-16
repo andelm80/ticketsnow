@@ -6,12 +6,14 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const formSchema = z.object({
   firstName: z.string().min(1, "First name is required"),
   lastName: z.string().min(1, "Last name is required"),
   email: z.string().min(1, "Email is required").email("Invalid email address"),
   phone: z.string().min(1, "Phone number is required"),
+  newsletter: z.boolean().default(false),
 });
 
 type CustomerDetails = z.infer<typeof formSchema>;
@@ -27,6 +29,7 @@ const CheckoutPage = () => {
       lastName: "",
       email: "",
       phone: "",
+      newsletter: false,
     },
   });
 
@@ -44,6 +47,10 @@ const CheckoutPage = () => {
   const onSubmit = async (data: CustomerDetails) => {
     try {
       console.log("Form data:", data);
+      if (data.newsletter) {
+        console.log("User signed up for newsletter:", data.email);
+        toast.success("Successfully signed up for newsletter!");
+      }
       toast.success("Order placed successfully!");
       navigate("/");
     } catch (error) {
@@ -130,6 +137,27 @@ const CheckoutPage = () => {
                     <Input placeholder="+1 (555) 000-0000" {...field} />
                   </FormControl>
                   <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="newsletter"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel>Newsletter</FormLabel>
+                    <p className="text-sm text-muted-foreground">
+                      Sign up for our newsletter to receive updates about upcoming shows and exclusive offers.
+                    </p>
+                  </div>
                 </FormItem>
               )}
             />
