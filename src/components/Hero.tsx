@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
-import { Logo } from "./Logo";
 
 export const Hero = () => {
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -27,9 +26,6 @@ export const Hero = () => {
         }}
       />
       <div className="relative z-10 text-center text-white p-8">
-        <div className="flex justify-center mb-8">
-          <Logo />
-        </div>
         <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in">
           Live the Music
         </h1>
