@@ -91,7 +91,7 @@ export const shows: Show[] = [
     date: "July 10, 2024",
     time: "7:30 PM",
     venue: "West End Theatre",
-    image: "https://images.unsplash.com/photo-1514533212735-5df27d970db9?q=80&w=1170&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?q=80&w=1170&auto=format&fit=crop",
     price: "$95",
     labels: ["Musical", "Dance", "Family-friendly"],
     description: "Join the West End Cast for a revival of the beloved musical Cats. Experience the magic of this timeless story through dance and music.",
