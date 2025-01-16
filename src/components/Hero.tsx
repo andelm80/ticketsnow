@@ -31,7 +31,6 @@ export const Hero = () => {
             transform: `translateY(${scrollPosition * 0.5}px)`,
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-ticket-purple to-ticket-blue opacity-90" />
       </div>
       <div className="relative z-10 text-center text-white p-8">
         <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in">
