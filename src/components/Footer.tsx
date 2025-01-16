@@ -1,4 +1,4 @@
-import { Github, Twitter } from "lucide-react";
+import { Github, Twitter, Facebook, Instagram } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export const Footer = () => {
@@ -51,10 +51,29 @@ export const Footer = () => {
             <h3 className="font-bold mb-4 text-gray-100">Follow Us</h3>
             <div className="flex space-x-4">
               <a
+                href="https://facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-300 hover:text-primary"
+                aria-label="Follow us on Facebook"
+              >
+                <Facebook className="h-5 w-5" />
+              </a>
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-300 hover:text-primary"
+                aria-label="Follow us on Instagram"
+              >
+                <Instagram className="h-5 w-5" />
+              </a>
+              <a
                 href="https://twitter.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-300 hover:text-primary"
+                aria-label="Follow us on Twitter"
               >
                 <Twitter className="h-5 w-5" />
               </a>
@@ -63,6 +82,7 @@ export const Footer = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-300 hover:text-primary"
+                aria-label="Visit our GitHub"
               >
                 <Github className="h-5 w-5" />
               </a>
