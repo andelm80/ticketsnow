@@ -42,7 +42,7 @@ export const shows: Show[] = [
     date: "October 15, 2024",
     time: "7:00 PM",
     venue: "Gershwin Theatre",
-    image: "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?q=80&w=1170&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?q=80&w=2070&auto=format&fit=crop",
     price: "$180",
     labels: ["Musical", "Fantasy", "Adventure"],
     description: "The untold story of the witches of Oz, exploring their friendship and the events that led to the Wicked Witch of the West.",
