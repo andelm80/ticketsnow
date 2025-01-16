@@ -79,7 +79,7 @@ export const shows: Show[] = [
     date: "July 1, 2024",
     time: "8:00 PM",
     venue: "Metropolitan Opera House",
-    image: "https://images.unsplash.com/photo-1522776203873-e4961ae6e07b?q=80&w=1170&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?q=80&w=1169&auto=format&fit=crop",
     price: "$150",
     labels: ["Opera", "Drama", "Classical"],
     description: "The Metropolitan Opera Company presents The Phantom Returns, a hauntingly beautiful tale of love and obsession set in the iconic opera house.",
