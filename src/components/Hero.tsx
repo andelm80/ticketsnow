@@ -1,10 +1,11 @@
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 export const Hero = () => {
   const navigate = useNavigate();
   const [scrollPosition, setScrollPosition] = useState(0);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -13,6 +14,15 @@ export const Hero = () => {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      console.log("Video element loaded");
+      videoRef.current.play().catch(error => {
+        console.log("Error playing video:", error);
+      });
+    }
   }, []);
 
   const handleExploreClick = () => {
@@ -24,6 +34,7 @@ export const Hero = () => {
     <div className="relative h-[70vh] flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0">
         <video
+          ref={videoRef}
           autoPlay
           muted
           loop
