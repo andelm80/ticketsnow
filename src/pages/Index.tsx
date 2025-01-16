@@ -26,9 +26,11 @@ const Index = () => {
         <meta property="og:description" content="Find and book tickets for the best Broadway shows and musicals. From classics to contemporary performances." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={window.location.origin} />
+        <meta property="og:image" content={`${window.location.origin}/hero-image.jpg`} />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="TicketMelody - Broadway Shows and Musicals" />
         <meta name="twitter:description" content="Find and book tickets for the best Broadway shows and musicals. From classics to contemporary performances." />
+        <meta name="twitter:image" content={`${window.location.origin}/hero-image.jpg`} />
         <link rel="canonical" href={window.location.origin} />
       </Helmet>
       <div className="min-h-screen bg-background">
