@@ -24,7 +24,7 @@ export const Hero = () => {
     <div className="relative h-[70vh] flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0">
         <img
-          src="https://images.unsplash.com/photo-1649972904349-6e44c42644a7"
+          src="https://images.unsplash.com/photo-1506744038136-46273834b3fb"
           alt="Concert venue"
           className="w-full h-full object-cover"
           style={{
