@@ -22,11 +22,19 @@
     <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
     <script type="module" src="/src/main.tsx"></script>
     <script>
-      window.addEventListener('load', function() {
-        const chatWidget = ChatWidget();
-        const container = document.getElementById('chat-widget');
-        container.appendChild(chatWidget);
-      });
+      // Wait for the script to load and define ChatWidget
+      const initChatWidget = () => {
+        if (typeof ChatWidget !== 'undefined') {
+          const chatWidget = ChatWidget();
+          const container = document.getElementById('chat-widget');
+          container.appendChild(chatWidget);
+        } else {
+          // If ChatWidget is not defined yet, try again in 100ms
+          setTimeout(initChatWidget, 100);
+        }
+      };
+
+      window.addEventListener('load', initChatWidget);
     </script>
   </body>
 </html>
