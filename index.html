@@ -18,7 +18,15 @@
 
   <body>
     <div id="root"></div>
+    <div id="chat-widget"></div>
     <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      window.addEventListener('load', function() {
+        const chatWidget = ChatWidget();
+        const container = document.getElementById('chat-widget');
+        container.appendChild(chatWidget);
+      });
+    </script>
   </body>
 </html>
