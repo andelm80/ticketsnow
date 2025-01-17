@@ -18,7 +18,26 @@
 
   <body>
     <div id="root"></div>
+    <div id="chat-widget" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;"></div>
     <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      // Wait for the script to load and define ChatWidget
+      const initChatWidget = () => {
+        if (typeof ChatWidget !== 'undefined') {
+          console.log('Initializing chat widget...');
+          const chatWidget = ChatWidget();
+          const container = document.getElementById('chat-widget');
+          container.appendChild(chatWidget);
+          console.log('Chat widget initialized successfully');
+        } else {
+          console.log('ChatWidget not found, retrying...');
+          // If ChatWidget is not defined yet, try again in 100ms
+          setTimeout(initChatWidget, 100);
+        }
+      };
+
+      window.addEventListener('load', initChatWidget);
+    </script>
   </body>
 </html>
